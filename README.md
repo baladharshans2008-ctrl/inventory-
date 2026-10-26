@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # RailFlow AI — Smart, Crash-Resistant Railway Booking System
 
 A full-stack prototype of a railway booking platform whose primary goal is **not**
