@@ -1,0 +1,169 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  RailFlow AI design tokens.
+  Two surface families on purpose:
+    - "night" surfaces  -> hero, dashboard, simulation lab (deep midnight navy)
+    - "paper" surfaces  -> booking forms, tables (white / soft slate)
+  The .paper utility re-declares the same tokens so shadcn-style components
+  work unchanged on both families.
+*/
+
+@layer base {
+  :root {
+    --background: 222 60% 5%;
+    --foreground: 210 40% 98%;
+
+    --card: 221 47% 9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 221 47% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 189 94% 43%;
+    --primary-foreground: 222 60% 6%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 96%;
+
+    --muted: 217 33% 15%;
+    --muted-foreground: 215 20% 68%;
+
+    --accent: 199 89% 48%;
+    --accent-foreground: 222 60% 6%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+
+    --success: 152 69% 40%;
+    --success-foreground: 150 60% 96%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 26 83% 10%;
+
+    --border: 217 33% 20%;
+    --input: 217 33% 20%;
+    --ring: 189 94% 43%;
+
+    --radius: 0.75rem;
+  }
+
+  /* Light "paper" surface used for booking forms. */
+  .paper {
+    --background: 210 40% 99%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 199 89% 38%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 15%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 42%;
+
+    --accent: 199 89% 44%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 47%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 152 62% 34%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 32 95% 44%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 214 25% 88%;
+    --input: 214 25% 88%;
+    --ring: 199 89% 44%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image:
+      radial-gradient(1000px 520px at 12% -8%, rgba(6, 182, 212, 0.13), transparent 60%),
+      radial-gradient(880px 460px at 92% 4%, rgba(59, 130, 246, 0.12), transparent 58%),
+      linear-gradient(180deg, #050b1a 0%, #060d1f 45%, #050b1a 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: rgba(34, 211, 238, 0.3);
+  }
+}
+
+@layer components {
+  .surface {
+    @apply rounded-2xl border border-white/10 bg-white/[0.035] backdrop-blur-sm;
+  }
+
+  .surface-raised {
+    @apply rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] shadow-panel;
+  }
+
+  .glow-ring {
+    box-shadow:
+      0 0 0 1px rgba(34, 211, 238, 0.22),
+      0 18px 45px -22px rgba(6, 182, 212, 0.5);
+  }
+
+  .kicker {
+    @apply text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-cyan-300/80;
+  }
+
+  .stat-value {
+    @apply font-mono text-2xl font-semibold tabular-nums tracking-tight;
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden rounded-md bg-white/[0.06];
+  }
+
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent;
+    animation: shimmer 1.6s infinite;
+  }
+
+  .scroll-slim::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scroll-slim::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.28);
+    border-radius: 999px;
+  }
+  .scroll-slim::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}

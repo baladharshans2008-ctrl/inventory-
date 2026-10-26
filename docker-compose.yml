@@ -1,0 +1,70 @@
+# RailFlow AI - full stack (PostgreSQL + Redis + FastAPI + Vite dev server).
+#
+#   docker compose up --build
+#   -> frontend  http://localhost:5173
+#   -> backend   http://localhost:8000/docs
+#
+# The application also runs without Docker: it falls back to SQLite and an
+# in-process cache/rate-limiter. See README -> "Running the stack".
+
+name: railflow-ai
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: railflow
+      POSTGRES_PASSWORD: railflow
+      POSTGRES_DB: railflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - railflow-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U railflow -d railflow"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - railflow-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://railflow:railflow@db:5432/railflow
+      REDIS_URL: redis://redis:6379/0
+      ADMIN_API_KEY: ${ADMIN_API_KEY:-railflow-demo-admin-key}
+      CORS_ORIGINS: http://localhost:5173,http://127.0.0.1:5173
+      RUN_WORKERS: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    environment:
+      # Consumed by vite.config.ts at startup; the dev server proxies /api here.
+      VITE_BACKEND_URL: http://backend:8000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  railflow-pgdata:
+  railflow-redis:

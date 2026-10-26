@@ -1,0 +1,8 @@
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+railflow.db
+railflow.db-shm
+railflow.db-wal
+tests

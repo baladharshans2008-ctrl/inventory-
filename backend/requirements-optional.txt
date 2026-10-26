@@ -1,0 +1,5 @@
+# Optional production-style backends.
+# The application runs without these and automatically falls back to a
+# local SQLite database + in-process queue/cache. See README "Fallbacks".
+psycopg[binary]==3.2.3
+redis==5.2.1
