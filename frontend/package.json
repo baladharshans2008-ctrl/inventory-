@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node ./node_modules/typescript/bin/tsc --noEmit && node ./node_modules/vite/bin/vite.js build",
+    "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "typecheck": "node ./node_modules/typescript/bin/tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",
@@ -38,8 +38,5 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "~5.6.3",
     "vite": "^5.4.9"
-  },
-  "allowScripts": {
-    "esbuild@0.21.5": true
   }
 }
